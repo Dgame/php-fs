@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  php-file:
+    container_name: php-file
+    build:
+      dockerfile: ./.docker/Dockerfile
+      context: .
+      args:
+        USER_ID: $USER_ID
+    env_file: .env
+    volumes:
+      - .:/var/www/html/:delegated

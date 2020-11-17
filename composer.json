@@ -1,0 +1,49 @@
+{
+    "name": "dgame/php-file",
+    "type": "library",
+    "description": "safe php file",
+    "keywords": [],
+    "homepage": "https://github.com/Dgame/php-file",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Randy Schütt",
+            "email": "rswhite4@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.4",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpmd/phpmd": "^2.8",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^9.4",
+        "psalm/phar": "^3.11",
+        "slevomat/coding-standard": "dev-master",
+        "spaceemotion/php-coding-standard": "dev-master"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Dgame\\File\\": "src/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "analyse": "phpcstd",
+        "coverage": "phpunit --coverage-clover=coverage",
+        "test": "phpunit"
+    }
+}
