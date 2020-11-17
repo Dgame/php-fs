@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97f3b28da4086e54d3db723e044659c8",
+    "content-hash": "935139dfb3773d1e44e38bbadeaca532",
     "packages": [],
     "packages-dev": [
         {
@@ -2991,7 +2991,7 @@
                 "issues": "https://github.com/spaceemotion/php-coding-standard/issues",
                 "source": "https://github.com/spaceemotion/php-coding-standard/tree/master"
             },
-            "time": "2020-11-11T14:26:56+00:00"
+            "time": "2020-11-17T17:37:12+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

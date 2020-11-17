@@ -19,5 +19,7 @@ install:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer install --no-interaction --prefer-dist
 update:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer up --with-all-dependencies
+update-lock:
+	docker-compose exec $(DOCKER_PHP_SERVICE) composer up --lock
 validate:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer validate

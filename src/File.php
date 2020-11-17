@@ -70,6 +70,36 @@ final class File
         return new self($handle);
     }
 
+    public static function stdIn(): self
+    {
+        $handle = fopen('php://stdin', 'rb');
+        if ($handle === false) {
+            throw new UnexpectedValueException('Could not open stdin-stream');
+        }
+
+        return new self($handle);
+    }
+
+    public static function stdOut(): self
+    {
+        $handle = fopen('php://stdout', 'wb');
+        if ($handle === false) {
+            throw new UnexpectedValueException('Could not open stdout-stream');
+        }
+
+        return new self($handle);
+    }
+
+    public static function stdErr(): self
+    {
+        $handle = fopen('php://stderr', 'wb+');
+        if ($handle === false) {
+            throw new UnexpectedValueException('Could not open stderr-stream');
+        }
+
+        return new self($handle);
+    }
+
     public function __destruct()
     {
         fclose($this->handle);
