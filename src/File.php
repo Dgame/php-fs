@@ -90,9 +90,10 @@ final class File
         return new self($handle);
     }
 
-    public static function stdErr(): self
+    public static function stdErr(Mode $mode = null): self
     {
-        $handle = fopen('php://stderr', 'wb+');
+        $mode ??= Mode::write()->withRead();
+        $handle = fopen('php://stderr', (string) $mode);
         if ($handle === false) {
             throw new UnexpectedValueException('Could not open stderr-stream');
         }
