@@ -38,8 +38,13 @@ final class File
 
     public static function open(string $filename, Mode $mode): self
     {
-        if (!file_exists($filename)) {
+        $path = new Path($filename);
+        if (!$path->exists()) {
             throw new InvalidArgumentException($filename . ' is not an existing file');
+        }
+
+        if (!$path->isFile()) {
+            throw new InvalidArgumentException($filename . ' is not a file');
         }
 
         $handle = fopen($filename, (string) $mode);
