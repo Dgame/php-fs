@@ -47,9 +47,9 @@ final class Path
         return is_executable($this->path);
     }
 
-    public function getPathInfo(): Pathinfo
+    public function getPathInfo(): PathInfo
     {
-        return new Pathinfo($this);
+        return new PathInfo($this);
     }
 
     public function rename(string $newname): bool

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dgame\Fs;
 
-final class Pathinfo
+final class PathInfo
 {
     private string $dirname;
     private string $filename;

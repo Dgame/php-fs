@@ -10,9 +10,10 @@ final class ReadMode extends Mode
 
     public function withWrite(): self
     {
-        $this->write = true;
+        $mode = clone $this;
+        $mode->write = true;
 
-        return $this;
+        return $mode;
     }
 
     public function __toString(): string

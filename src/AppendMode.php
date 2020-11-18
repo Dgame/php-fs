@@ -10,9 +10,10 @@ final class AppendMode extends Mode
 
     public function withRead(): self
     {
-        $this->read = true;
+        $mode = clone $this;
+        $mode->read = true;
 
-        return $this;
+        return $mode;
     }
 
     public function __toString(): string
