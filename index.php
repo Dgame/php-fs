@@ -62,3 +62,11 @@ var_dump($path->getPathInfo());
 var_dump($path->getPermissions()->inOctal());
 var_dump($path->getPermissions()->toInt());
 var_dump((string) $path->getParent());
+
+$path = new Path(__FILE__);
+var_dump($path->exists());
+var_dump($path->getFilename());
+var_dump($path->getPathInfo());
+var_dump($path->getPermissions()->inOctal());
+var_dump($path->getPermissions()->toInt());
+var_dump((string) $path->getParent());

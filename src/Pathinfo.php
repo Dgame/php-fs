@@ -8,6 +8,7 @@ final class Pathinfo
 {
     private string $dirname;
     private string $filename;
+    private string $basename;
     private ?string $extension;
 
     public function __construct(Path $path)
@@ -15,7 +16,8 @@ final class Pathinfo
         $info = pathinfo((string) $path);
         [
             'dirname' => $this->dirname,
-            'filename' => $this->filename,
+            'basename' => $this->filename,
+            'filename' => $this->basename,
         ] = $info;
         $this->extension = $info['extension'] ?? null;
     }
@@ -34,6 +36,14 @@ final class Pathinfo
     public function getFilename(): string
     {
         return $this->filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBasename(): string
+    {
+        return $this->basename;
     }
 
     /**
