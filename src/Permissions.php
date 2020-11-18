@@ -24,6 +24,11 @@ final class Permissions
         return new self($mode);
     }
 
+    public static function withOctal(string $mode): self
+    {
+        return new self((int) octdec($mode));
+    }
+
     public static function for(Path $path): self
     {
         if (!$path->exists()) {
@@ -43,11 +48,6 @@ final class Permissions
     public static function none(): self
     {
         return new self(0);
-    }
-
-    public static function withOctal(string $mode): self
-    {
-        return new self((int) octdec($mode));
     }
 
     public static function new(): PermissionBuilder
