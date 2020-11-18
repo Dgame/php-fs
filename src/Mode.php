@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Dgame\File;
+namespace Dgame\Fs;
 
-use Dgame\File\Mode\DefaultModeParser;
-use Dgame\File\Mode\ModeParser;
+use Dgame\Fs\Mode\DefaultModeParser;
+use Dgame\Fs\Mode\ModeParser;
 
 abstract class Mode
 {

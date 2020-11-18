@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Dgame\File\Mode;
+namespace Dgame\Fs\Mode;
 
-use Dgame\File\Mode;
+use Dgame\Fs\Mode;
 use UnexpectedValueException;
 
 final class WriteModeState implements ModeState

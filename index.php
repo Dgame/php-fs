@@ -1,8 +1,11 @@
 <?php
 
-use Dgame\File\Mode;
-use Dgame\File\File;
-use Dgame\File\Mode\DefaultModeParser;
+use Dgame\Fs\Mode;
+use Dgame\Fs\File;
+use Dgame\Fs\Mode\DefaultModeParser;
+use Dgame\Fs\Path;
+use Dgame\Fs\Permission;
+use Dgame\Fs\Permissions;
 
 require_once 'vendor/autoload.php';
 
@@ -34,37 +37,28 @@ print $stream->readFromStart(10);
 $stream->write('Hello');
 print $stream->readFromStart(10);
 
-class Offset
-{
-    private int $length;
+$permission = Permissions::new()
+    ->forUser(Permission::readWriteExecute())
+    ->forGroup(Permission::readWriteExecute())
+    ->forOther(Permission::readWriteExecute())
+    ->build();
+var_dump($permission->toInt());
+var_dump($permission->inOctal());
+var_dump((string) $permission);
 
-    public function __construct(int $length)
-    {
-        $this->length = $length;
-    }
+$permission = Permissions::new()
+                         ->forUser(Permission::readWrite())
+                         ->forGroup(Permission::readExecute())
+                         ->forOther(Permission::readExecute())
+                         ->build();
+var_dump($permission->toInt());
+var_dump($permission->inOctal());
+var_dump((string) $permission);
 
-    final public function getLength(): int
-    {
-        return $this->length;
-    }
-}
-
-final class PositiveOffset extends Offset
-{
-    public function __construct(int $length)
-    {
-        assert($length >= 0);
-
-        parent::__construct($length);
-    }
-}
-
-final class NegativeOffset extends Offset
-{
-    public function __construct(int $length)
-    {
-        assert($length <= 0);
-
-        parent::__construct($length);
-    }
-}
+$path = new Path('/etc/passwd');
+var_dump($path->exists());
+var_dump($path->getFilename());
+var_dump($path->getPathInfo());
+var_dump($path->getPermissions()->inOctal());
+var_dump($path->getPermissions()->toInt());
+var_dump((string) $path->getParent());

@@ -1,9 +1,9 @@
 {
-    "name": "dgame/php-file",
+    "name": "dgame/php-fs",
     "type": "library",
-    "description": "safe php file",
+    "description": "safe php filesystem components",
     "keywords": [],
-    "homepage": "https://github.com/Dgame/php-file",
+    "homepage": "https://github.com/Dgame/php-fs",
     "license": "MIT",
     "authors": [
         {
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dgame\\File\\": "src/"
+            "Dgame\\Fs\\": "src/"
         },
         "classmap": [
             "src/"

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dgame\File\Mode;
+namespace Dgame\Fs\Mode;
 
 use DomainException;
 use UnexpectedValueException;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dgame\File;
+namespace Dgame\Fs;
 
 use InvalidArgumentException;
 use UnexpectedValueException;

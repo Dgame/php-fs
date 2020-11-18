@@ -1,6 +1,6 @@
 DOCKER_PHP_SERVICE = php-file
 
-.PHONY: new up kill test analyse install update validate
+.PHONY: new up kill test analyse install update validate dump-autoload index
 
 new: kill
 	#cp .env.dist .env
@@ -21,5 +21,9 @@ update:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer up --with-all-dependencies
 update-lock:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer up --lock
+dump-autoload:
+	docker-compose exec $(DOCKER_PHP_SERVICE) composer dump-autoload
 validate:
 	docker-compose exec $(DOCKER_PHP_SERVICE) composer validate
+index:
+	docker-compose exec $(DOCKER_PHP_SERVICE) php index.php
