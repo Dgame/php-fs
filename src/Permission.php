@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Dgame\Fs;
 
+use UnexpectedValueException;
+
+use function Symfony\Component\String\s;
+
 final class Permission
 {
     private bool $read;
@@ -15,6 +19,20 @@ final class Permission
         $this->read = $read;
         $this->write = $write;
         $this->execute = $execute;
+    }
+
+    public static function fromHumanReadable(string $permission): self
+    {
+        $str = s($permission);
+        if ($str->length() !== 3) {
+            throw new UnexpectedValueException(
+                'A permission as human readable string should be exactly 3 characters long, e.g. "rwx"'
+            );
+        }
+
+        [$read, $write, $execute] = $str->chunk();
+
+        return new self($read->equalsTo('r'), $write->equalsTo('w'), $execute->equalsTo('x'));
     }
 
     public static function readWriteExecute(): self

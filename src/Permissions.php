@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Dgame\Fs;
 
 use InvalidArgumentException;
+use UnexpectedValueException;
+
+use function Symfony\Component\String\s;
 
 final class Permissions
 {
@@ -17,6 +20,31 @@ final class Permissions
         }
 
         $this->mode = $mode;
+    }
+
+    public static function fromHumanReadable(string $permission): self
+    {
+        $str = s($permission);
+        $len = $str->length();
+        if ($len < 9 || $len > 10) {
+            throw new UnexpectedValueException(
+                'A permission as human readable string should be between 9 and 10 characters long'
+            );
+        }
+
+        if ($len > 9) {
+            $str = $str->slice(1);
+        }
+
+        [$user, $group, $other] = $str->chunk(3);
+
+        $user = Permission::fromHumanReadable($user->toString());
+        $group = Permission::fromHumanReadable($group->toString());
+        $other = Permission::fromHumanReadable($other->toString());
+
+        $mode = $user->toInt() . $group->toInt() . $other->toInt();
+
+        return self::withOctal($mode);
     }
 
     public static function withInt(int $mode): self
@@ -40,9 +68,9 @@ final class Permissions
             return self::none();
         }
 
-        $mode = substr(sprintf('%o', $perm), -4);
+        $mode = s(sprintf('%o', $perm))->slice(-4);
 
-        return self::withOctal($mode);
+        return self::withOctal($mode->toString());
     }
 
     public static function none(): self
@@ -65,9 +93,21 @@ final class Permissions
         return (int) decoct($this->mode);
     }
 
-    /**
-     * @return string
-     */
+    public function getUserPermission(): Permission
+    {
+        return Permission::fromHumanReadable($this->getUserPermissionAsString());
+    }
+
+    public function getGroupPermission(): Permission
+    {
+        return Permission::fromHumanReadable($this->getGroupPermissionAsString());
+    }
+
+    public function getOtherPermission(): Permission
+    {
+        return Permission::fromHumanReadable($this->getOtherPermissionAsString());
+    }
+
     private function identifyFileType(): string
     {
         switch ($this->mode & 0xF000) {
@@ -90,10 +130,7 @@ final class Permissions
         }
     }
 
-    /**
-     * @return string
-     */
-    private function getUserPermission(): string
+    private function getUserPermissionAsString(): string
     {
         $info = $this->mode & 0x0100 ? 'r' : '-';
         $info .= $this->mode & 0x0080 ? 'w' : '-';
@@ -105,10 +142,7 @@ final class Permissions
         return $info . ($this->mode & 0x0800 ? 'S' : '-');
     }
 
-    /**
-     * @return string
-     */
-    private function getGroupPermission(): string
+    private function getGroupPermissionAsString(): string
     {
         $info = $this->mode & 0x0020 ? 'r' : '-';
         $info .= $this->mode & 0x0010 ? 'w' : '-';
@@ -119,10 +153,7 @@ final class Permissions
         return $info . ($this->mode & 0x0400 ? 'S' : '-');
     }
 
-    /**
-     * @return string
-     */
-    private function getOtherPermission(): string
+    private function getOtherPermissionAsString(): string
     {
         $info = $this->mode & 0x0004 ? 'r' : '-';
         $info .= $this->mode & 0x0002 ? 'w' : '-';
@@ -136,9 +167,9 @@ final class Permissions
     public function __toString(): string
     {
         $info = $this->identifyFileType();
-        $info .= $this->getUserPermission();
-        $info .= $this->getGroupPermission();
-        $info .= $this->getOtherPermission();
+        $info .= $this->getUserPermissionAsString();
+        $info .= $this->getGroupPermissionAsString();
+        $info .= $this->getOtherPermissionAsString();
 
         return $info;
     }

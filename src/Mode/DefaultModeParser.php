@@ -7,19 +7,21 @@ namespace Dgame\Fs\Mode;
 use DomainException;
 use UnexpectedValueException;
 
+use function Symfony\Component\String\s;
+
 final class DefaultModeParser implements ModeParser
 {
     public function parse(string $mode): ModeState
     {
-        $letters = str_split(strtolower($mode));
-        $letter = reset($letters);
-        if ($letter === false) {
+        $letters = s($mode)->lower()->chunk();
+        $firstLetter = array_shift($letters);
+        if ($firstLetter === null) {
             throw new UnexpectedValueException('Expected one of either "r", "w" or "a"');
         }
 
-        $state = self::createInitialModeStateFrom($letter);
-        foreach (array_slice($letters, 1) as $letter) {
-            $state->with($letter);
+        $state = self::createInitialModeStateFrom($firstLetter->toString());
+        foreach ($letters as $letter) {
+            $state->with($letter->toString());
         }
 
         return $state;

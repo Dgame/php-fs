@@ -6,6 +6,8 @@ namespace Dgame\Fs;
 
 final class AppendMode extends Mode
 {
+    use BinaryMode;
+
     private bool $read = false;
 
     public function withRead(): self

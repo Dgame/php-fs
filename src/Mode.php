@@ -9,8 +9,6 @@ use Dgame\Fs\Mode\ModeParser;
 
 abstract class Mode
 {
-    protected bool $binary = false;
-
     private function __construct()
     {
     }
@@ -36,13 +34,6 @@ abstract class Mode
     public static function append(): AppendMode
     {
         return new AppendMode();
-    }
-
-    public function inBinary(): self
-    {
-        $this->binary = true;
-
-        return $this;
     }
 
     abstract public function __toString(): string;

@@ -57,40 +57,28 @@ final class File
 
     public static function temp(Mode $mode): self
     {
-        $handle = fopen('php://temp', (string) $mode);
-        if ($handle === false) {
-            throw new UnexpectedValueException('Could not open temp-stream');
-        }
+        $handle = \Safe\fopen('php://temp', (string) $mode);
 
         return new self($handle);
     }
 
     public static function memory(Mode $mode): self
     {
-        $handle = fopen('php://memory', (string) $mode);
-        if ($handle === false) {
-            throw new UnexpectedValueException('Could not open memory-stream');
-        }
+        $handle = \Safe\fopen('php://memory', (string) $mode);
 
         return new self($handle);
     }
 
     public static function stdIn(): self
     {
-        $handle = fopen('php://stdin', 'rb');
-        if ($handle === false) {
-            throw new UnexpectedValueException('Could not open stdin-stream');
-        }
+        $handle = \Safe\fopen('php://stdin', 'rb');
 
         return new self($handle);
     }
 
     public static function stdOut(): self
     {
-        $handle = fopen('php://stdout', 'wb');
-        if ($handle === false) {
-            throw new UnexpectedValueException('Could not open stdout-stream');
-        }
+        $handle = \Safe\fopen('php://stdout', 'wb');
 
         return new self($handle);
     }
@@ -98,17 +86,14 @@ final class File
     public static function stdErr(Mode $mode = null): self
     {
         $mode ??= Mode::write()->withRead();
-        $handle = fopen('php://stderr', (string) $mode);
-        if ($handle === false) {
-            throw new UnexpectedValueException('Could not open stderr-stream');
-        }
+        $handle = \Safe\fopen('php://stderr', (string) $mode);
 
         return new self($handle);
     }
 
     public function __destruct()
     {
-        fclose($this->handle);
+        \Safe\fclose($this->handle);
     }
 
     public function getContentLength(): int
@@ -163,12 +148,7 @@ final class File
 
     public function readFromCurrentOffset(int $length): string
     {
-        $result = fread($this->handle, $length);
-        if ($result === false) {
-            throw new UnexpectedValueException('Could not read from file');
-        }
-
-        return $result;
+        return \Safe\fread($this->handle, $length);
     }
 
     public function readLineFromStart(int $length = null): string
@@ -208,18 +188,12 @@ final class File
 
     public function write(string $content): void
     {
-        $result = fwrite($this->handle, $content);
-        if ($result === false) {
-            throw new UnexpectedValueException('Could not write into file');
-        }
+        \Safe\fwrite($this->handle, $content);
     }
 
     public function truncateContentTo(int $length): void
     {
-        $result = ftruncate($this->handle, $length);
-        if ($result === false) {
-            throw new UnexpectedValueException('Could not truncate to ' . $length);
-        }
+        \Safe\ftruncate($this->handle, $length);
     }
 
     public function lockExclusive(): bool

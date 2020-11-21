@@ -72,71 +72,73 @@ final class Path
         return is_file($this->path);
     }
 
-    public function deleteAll(): bool
+    public function deleteAll(): void
     {
         if ($this->isDirectory()) {
-            return $this->cleanContent() && $this->delete();
+            $this->cleanContent();
         }
 
-        return $this->delete();
+        $this->delete();
     }
 
-    public function cleanContent(): bool
+    public function cleanContent(): void
     {
         if (!$this->exists()) {
-            return true;
+            return;
         }
 
         if ($this->isFile()) {
-            return file_put_contents($this->path, '') !== false;
+            \Safe\file_put_contents($this->path, '');
+
+            return;
         }
 
         $rit = new RecursiveDirectoryIterator($this->path, FilesystemIterator::SKIP_DOTS);
         $rit = new RecursiveIteratorIterator($rit, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($rit as $file) {
-            $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
+            $file->isDir() ? \Safe\rmdir($file->getPathname()) : \Safe\unlink($file->getPathname());
         }
-
-        return true;
     }
 
-    public function delete(): bool
+    public function delete(): void
     {
         if (!$this->exists()) {
-            return true;
+            return;
         }
 
         if ($this->isFile()) {
-            return unlink($this->path);
+            \Safe\unlink($this->path);
+        } else {
+            \Safe\rmdir($this->path);
         }
-
-        return rmdir($this->path);
     }
 
-    public function create(Permissions $permissions = null): bool
+    public function create(Permissions $permissions = null): void
     {
         if ($this->exists()) {
-            return true;
+            return;
         }
 
         if ($this->isFile()) {
-            if (!file_put_contents($this->path, '') !== false) {
-                return false;
+            \Safe\file_put_contents($this->path, '');
+
+            if ($permissions !== null) {
+                $this->changePermissionsTo($permissions);
             }
 
-            return $permissions === null ? true : $this->changePermissionsTo($permissions);
+            return;
         }
 
         if ($permissions === null) {
-            return mkdir($this->path, 0777, true);
+            \Safe\mkdir($this->path, 0777, true);
+        } else {
+            \Safe\mkdir($this->path, $permissions->inOctal(), true);
         }
-
-        return mkdir($this->path, $permissions->inOctal(), true);
     }
 
-    public function changePermissionsTo(Permissions $permissions): bool
+    public function changePermissionsTo(Permissions $permissions): void
     {
-        return chmod($this->path, $permissions->inOctal());
+        \Safe\chmod($this->path, $permissions->inOctal());
     }
 
     public function getPermissions(): Permissions

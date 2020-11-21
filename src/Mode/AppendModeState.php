@@ -42,11 +42,11 @@ final class AppendModeState implements ModeState
     {
         $mode = Mode::append();
         if ($this->binary) {
-            $mode->inBinary();
+            $mode = $mode->inBinary();
         }
 
         if ($this->read) {
-            $mode->withRead();
+            $mode = $mode->withRead();
         }
 
         return $mode;

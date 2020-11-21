@@ -55,6 +55,12 @@ var_dump($permission->toInt());
 var_dump($permission->inOctal());
 var_dump((string) $permission);
 
+var_dump(Permissions::fromHumanReadable((string) $permission));
+var_dump(Permission::fromHumanReadable('rwx'));
+var_dump(Permission::fromHumanReadable('-wx'));
+var_dump(Permission::fromHumanReadable('r-x'));
+var_dump(Permission::fromHumanReadable('--x'));
+
 $path = new Path('/etc/passwd');
 var_dump($path->exists());
 var_dump($path->getFilename());

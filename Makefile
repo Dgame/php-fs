@@ -1,4 +1,4 @@
-DOCKER_PHP_SERVICE = php-file
+DOCKER_PHP_SERVICE = php-fs
 
 .PHONY: new up kill test analyse install update validate dump-autoload index
 

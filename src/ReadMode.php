@@ -6,6 +6,8 @@ namespace Dgame\Fs;
 
 final class ReadMode extends Mode
 {
+    use BinaryMode;
+
     private bool $write = false;
 
     public function withWrite(): self
